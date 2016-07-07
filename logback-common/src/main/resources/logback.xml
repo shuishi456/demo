@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="GBK"?>
+<configuration debug="false">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.out</target>
+        <encoding>GBK</encoding>
+        <filter class="com.alibaba.citrus.logconfig.logback.LevelRangeFilter">
+            <levelMax>INFO</levelMax>
+        </filter>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern><![CDATA[
+%n%-4r [%d{yyyy-MM-dd HH:mm:ss} %X{productionMode}] - %X{method} %X{requestURIWithQueryString} [ip=%X{remoteAddr}, ref=%X{referrer}, ua=%X{userAgent}, sid=%X{cookie.JSESSIONID}]%n  %-5level %logger{35} - %m%n
+            ]]></pattern>
+        </layout>
+    </appender>
+
+    <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.err</target>
+        <encoding>GBK</encoding>
+        <filter class="com.alibaba.citrus.logconfig.logback.LevelRangeFilter">
+            <levelMin>ERROR</levelMin>
+        </filter>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern><![CDATA[
+%n%-4r [%d{yyyy-MM-dd HH:mm:ss} %X{productionMode}] - %X{method} %X{requestURIWithQueryString} [ip=%X{remoteAddr}, ref=%X{referrer}, ua=%X{userAgent}, sid=%X{cookie.JSESSIONID}]%n  %-5level %logger{35} - %m%n
+            ]]></pattern>
+        </layout>
+    </appender>
+
+	<!-- 项目相关 -->
+    <appender name="PROJECT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/yougo/server/logisticscenter/logs/logisticscenter.log</file>
+        <encoding>GBK</encoding>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/yougo/server/logisticscenter/logs/logisticscenter.log.%d{yyyy-MM-dd}
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%thread] %level %logger{35} %msg%n</pattern>
+        </encoder>
+    </appender>
+
+	<!-- 订单相关 -->
+    <appender name="ORDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/yougo/server/logisticscenter/logs/logisticscenter-trade.log</file>
+        <encoding>GBK</encoding>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/yougo/server/logisticscenter/logs/logisticscenter-order.log.%d{yyyy-MM-dd}
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%thread] %level %logger{35} %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- dubbo相关 -->
+    <appender name="DUBBO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/yougo/server/logisticscenter/logs/dubbo.log</file>
+        <encoding>GBK</encoding>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/yougo/server/logisticscenter/logs/dubbo.log.%d{yyyy-MM-dd}
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%thread] %level %logger{35} %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+
+    <logger name="project">
+        <level value="DEBUG" />
+        <appender-ref ref="PROJECT" />
+    </logger>
+
+    <logger name="order">
+        <level value="DEBUG" />
+        <appender-ref ref="ORDER" />
+    </logger>
+
+    <logger name="com.alibaba.dubbo">
+        <level value="DEBUG" />
+        <appender-ref ref="DUBBO" />
+    </logger>
+
+
+    <root>
+        <level value="DEBUG"/>
+        <appender-ref ref="PROJECT" />
+        <appender-ref ref="STDERR" />
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="INVENTORY" />
+        <appender-ref ref="TRADE" />
+
+    </root>
+
+</configuration>
